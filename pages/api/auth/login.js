@@ -1,4 +1,4 @@
-import { config } from "@/lib/session"
+import { config } from "@/lib/hooks/session"
 import getConnection from "@/lib/database/getConnection"
 import { withIronSessionApiRoute } from "iron-session/next"
 import bcrypt from "bcrypt"
@@ -22,9 +22,8 @@ export async function handler(req, res) {
             email: user.email
         }
         await req.session.save()
-        res.status(200).json({ session: req.session })
+        res.status(200).json(req.session.user)
     } else {
         res.status(401).json({ message: "unauthorized" })
     }
-
 }

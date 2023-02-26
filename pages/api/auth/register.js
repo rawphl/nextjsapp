@@ -1,4 +1,4 @@
-import { config } from "@/lib/session"
+import { config } from "@/lib/hooks/session"
 import getConnection from "@/lib/database/getConnection"
 import { withIronSessionApiRoute } from "iron-session/next"
 import bcrypt from "bcrypt"

@@ -1,4 +1,4 @@
-import { config } from "@/lib/session"
+import { config } from "@/lib/hooks/session"
 import { withIronSessionApiRoute } from "iron-session/next"
 
 export default withIronSessionApiRoute(handler, config)
