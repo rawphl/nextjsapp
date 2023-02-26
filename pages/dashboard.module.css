@@ -4,12 +4,26 @@
   gap: 2em;
 }
 
+.dashboard > div:first-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .post {
   padding: 1em;
-  border: 1px solid black;
   height: 100%;
+}
+
+.post h2 {
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .post > * {
   padding: 0.5em;
 }
+

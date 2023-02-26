@@ -1,3 +1,7 @@
+:root {
+  --main-max-width: 980px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +14,7 @@ html, body {
   scroll-behavior: smooth;
   overflow-x: hidden;
   overflow-y: auto;
+  background: white;
 }
 
 #app {
@@ -23,8 +28,14 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  padding: 4em;
+  width: var(--main-max-width);
+  align-self: center;
+}
+
+@media screen and (max-width: 980px) {
+  main {
+    width: 100%;
+  }
 }
 
 img {
@@ -35,4 +46,16 @@ img {
 a {
   color: black;
   text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background: black;
+    color: white;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
 }
