@@ -7,7 +7,7 @@ export default function Profile({ session }) {
       <Head>
         <title>Profile</title>
       </Head>
-      <main className={styles.index}>
+      <main className={styles.profile}>
         <pre>{JSON.stringify(session, null, 4)}</pre>
       </main>
     </>
