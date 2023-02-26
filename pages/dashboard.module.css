@@ -1,5 +1,15 @@
 .dashboard {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2em;
+}
+
+.post {
+  padding: 1em;
+  border: 1px solid black;
+  height: 100%;
+}
+
+.post > * {
+  padding: 0.5em;
 }
