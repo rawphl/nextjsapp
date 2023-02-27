@@ -10,14 +10,14 @@ export async function handler(req, res) {
 
     const { email, password } = req.body
     try {
-        const conn = getConnection()
-        const [rows] = await conn.query("SELECT * FROM user WHERE email=?", [email])
+        const { connection } = await getConnection()
+        const [rows] = await connection.query("SELECT * FROM user WHERE email=?", [email])
 
         const user = rows[0]
         if (user) return res.status(401).json({ message: "unauthorized" })
 
         const password_hash = await bcrypt.hash(password, 10)
-        const [result] = await conn.execute("INSERT INTO user (email, password) VALUES (?, ?)", [email, password_hash])
+        const [result] = await connection.execute("INSERT INTO user (email, password) VALUES (?, ?)", [email, password_hash])
 
         req.session.user = {
             id: result.insertId,

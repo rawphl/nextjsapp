@@ -9,8 +9,8 @@ export async function handler(req, res) {
     if (req.method !== "POST") return res.status(400).json({ message: "bad request" })
     const { email, password } = req.body
 
-    const conn = getConnection()
-    const [rows] = await conn.query("SELECT * FROM user WHERE email=?", [email])
+    const { connection } = await getConnection()
+    const [rows] = await connection.query("SELECT * FROM user WHERE email=?", [email])
     const user = rows[0]
 
     if (!user) return res.status(401).json({ message: "unauthorized" })
