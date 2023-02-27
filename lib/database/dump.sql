@@ -1,3 +1,5 @@
+CREATE DATABASE `my-website-db`;
+
 USE `my-website-db`;
 
 CREATE TABLE user (
