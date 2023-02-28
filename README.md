@@ -5,7 +5,20 @@
 Im lib/database Verzeichnis sollten die Dateien getConnection.js, dump.sql und DigiCertGlobalRootCA.crt.pem vorhanden sein.
 Der Dump solllte mit einem CREATE DATABASE IF NOT EXISTS beginnen, da die Datenbank ohne Tabellen bereits beim Erstellen kreiert wird.
 
+Achtung: getConnection ist nun asynchron:
+
+```js
+import getConnection from "@/lib/database/getConnection"
+...
+const connection = await getConnection()
+```
+
+Fehler beim Verbinden landen im Terminal / App log.
+
 ### Mit mysql Workbench verbinden
+In der Workbench kann man sich mit dem gesetzten user und passwort so wie dem Host $appName-db.mysql.azure.com anmelden.
+
+Im Tab SSL sollte unter SSL CA File die Datei DigiCertGlobalRootCA.crt.pem angegeben werden.
 
 
 ## Authentifizierung
