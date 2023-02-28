@@ -1,5 +1,37 @@
 # bbc-nextjs-app
 
+## App setup
+
+```
+$ git clone
+```
+
+```
+$ npm install
+```
+
+- lib/database/dump.sql in der lokalen mysql Instanu ausführen.
+- .env.local Datei erstellen (Siehe nächster Schritt)
+
+## .env.local
+Folgende Variablen gehören in das .env.local File. Das File muss nach dem Clonen erstellt werden.
+
+DB_HOST muss mit der IP des vEthernet WSL Adapters angepasst werde. Im Windows cmd:
+
+```
+$ ipconfig
+```
+
+```
+NODE_ENV=development
+SECRET_KEY=asouifhdsalfgkhdasuiofhaslkufjkhadsfjkhasdfasdukijlfhbukasd.hfjsdaf
+DB_PORT=3306
+DB_HOST=172.25.192.1
+DB_USER=root
+DB_PASSWORD=1234
+DB_NAME=my-website-db
+```
+
 ## Datenbank setup
 
 Im lib/database Verzeichnis sollten die Dateien getConnection.js, dump.sql und DigiCertGlobalRootCA.crt.pem vorhanden sein.
