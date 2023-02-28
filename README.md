@@ -10,7 +10,7 @@ $ git clone
 $ npm install
 ```
 
-- lib/database/dump.sql in der lokalen mysql Instanu ausführen.
+- lib/database/dump.sql in der lokalen mysql Instanz ausführen.
 - .env.local Datei erstellen (Siehe nächster Schritt)
 
 ## .env.local
