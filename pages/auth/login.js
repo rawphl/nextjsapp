@@ -21,6 +21,7 @@ const validate = (model) => {
 
 export default function LoginPage({ signIn }) {
     const router = useRouter()
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const [model, setModel] = useState({
         email: "",
         password: ""
@@ -38,11 +39,13 @@ export default function LoginPage({ signIn }) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors(null)
+        setIsSubmitting(true)
 
         const errors = validate(model)
 
         if (errors) {
             setErrors(errors)
+            setIsSubmitting(false)
             return
         }
 
@@ -60,11 +63,12 @@ export default function LoginPage({ signIn }) {
             setErrors({
                 login: "Authentication failed"
             })
+            setIsSubmitting(false)
             return
         }
         const data = await response.json()
         signIn(data)
-  
+        setIsSubmitting(false)
         await router.push(router.query.next || "/")
     }
 
@@ -74,6 +78,7 @@ export default function LoginPage({ signIn }) {
                 <title>Authenticate</title>
             </Head>
             <main className={styles.login}>
+                {isSubmitting && <div>Loading...</div>}
                 <form onSubmit={handleSubmit}>
                     <h1>Authenticate</h1>
                     <span>{errors?.login}</span>

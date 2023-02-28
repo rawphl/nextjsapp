@@ -1,38 +1,104 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# bbc-nextjs-app
 
-## Getting Started
+## Datenbank setup
 
-First, run the development server:
+Im lib/database Verzeichnis sollten die Dateien getConnection.js, dump.sql und DigiCertGlobalRootCA.crt.pem vorhanden sein.
+Der Dump solllte mit einem CREATE DATABASE IF NOT EXISTS beginnen, da die Datenbank ohne Tabellen bereits beim Erstellen kreiert wird.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+### Mit mysql Workbench verbinden
+
+
+## Authentifizierung
+
+Die Authentifizierung wurde mit iron-session: https://github.com/vvo/iron-session umgesetzt und ist cookiebasiert. Relevant hierfür sind die Datein lib/hooks/session.js sowie pages/api/auth/*.
+
+Siehe auch _app.js für den Einsatz von useSession().
+
+lib/hooks/redirect.js ist für Redirects zuständig. Pages, die nicht öffentlich zugänglich sein sollten, sollten via getStaticProps das privatePage Attribute als Props definiere:
+
+pages/dashboard.js
+
+```js
+export async function getStaticProps() {
+  return {
+    props: {
+      privatePage: true,
+      posts: await fetchPosts()
+    }
+  }
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Jede Page erhält die Session automatisch als Props:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```js
+export default function Index({ session }) {
+  return (
+    <>
+      <Head>
+        <title>Index</title>
+      </Head>
+      <main className={styles.index}>
+        <h1>Index</h1>
+        {session && <Link href="/dashboard">Dashboard</Link>}
+      </main>
+    </>
+  )
+}
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Wenn !session true ist, so ist der User nicht eingeloggt.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Azure CLI installieren:
+```
+    $ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+```
+2. Einloggen:
+```
+    $ az login 
+```
 
-## Learn More
+Falls redirect zu Browser nicht funktioniert:
 
-To learn more about Next.js, take a look at the following resources:
+```bash  
+    $ az login --use-device-code
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. db-up Add-on installieren:
+``` 
+$ az extension add --name db-up
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. appName, dbUser und dbPassword Variablen in setup-azure.sh anpassen.
 
-## Deploy on Vercel
+5. Setup script laufen lassen (kann 5-10 Minuten dauern):
+```
+$ bash setup-azure.sh
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Der erste Deploy sollte nun online sein. In Zukunft kann die App mit
+```
+$ az webapp up --runtime "NODE|18-lts"
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+deployed werden. Das .azure Verzeichnis enthält die Angaben für die App.
+
+## Fehlerbehandlung
+
+### Resourcen löschen
+Alle erstellen Resourcen können im Dashboard von Azure wieder gelöscht werden: https://portal.azure.com/#view/HubsExtension/BrowseAll.
+Sobald alle weg sind, kann man das Deployment script nochmals laufen lassen.
+
+### Deployment logs
+Zuerst muss man auf das Dashboard der Webapp navigieren:
+
+Im Azure Dashboard unter Deployment -> Deployment center -> logs kann man auf die Commit ID klicken. Im Fenster, das sich öffnet, sieht man das Deployment log unter Show logs...
+
+#### App logs
+Zuerst muss man auf das Dashboard der Webapp navigieren:
+
+Im Azure Dashboard unter Monitoring -> Log stream sieht man die Logs der Applikation.
+
+
