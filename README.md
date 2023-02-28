@@ -27,7 +27,7 @@ Die Authentifizierung wurde mit iron-session: https://github.com/vvo/iron-sessio
 
 Siehe auch _app.js für den Einsatz von useSession().
 
-lib/hooks/redirect.js ist für Redirects zuständig. Pages, die nicht öffentlich zugänglich sein sollten, sollten via getStaticProps das privatePage Attribute als Props definiere:
+lib/hooks/redirect.js ist für Redirects zuständig. Pages, die nicht öffentlich zugänglich sein sollten, sollten via getStaticProps das privatePage Attribute als Props definieren:
 
 pages/dashboard.js
 
