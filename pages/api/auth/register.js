@@ -10,7 +10,7 @@ export async function handler(req, res) {
 
     const { email, password } = req.body
     try {
-        const { connection } = await getConnection()
+        const connection = await getConnection()
         const [rows] = await connection.query("SELECT * FROM user WHERE email=?", [email])
 
         const user = rows[0]

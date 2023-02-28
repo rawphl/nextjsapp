@@ -9,7 +9,7 @@ export async function handler(req, res) {
     if (req.method !== "POST") return res.status(400).json({ message: "bad request" })
     const { email, password } = req.body
 
-    const { connection } = await getConnection()
+    const connection = await getConnection()
     const [rows] = await connection.query("SELECT * FROM user WHERE email=?", [email])
     const user = rows[0]
 
