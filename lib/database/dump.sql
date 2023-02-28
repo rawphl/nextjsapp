@@ -1,4 +1,4 @@
---CREATE DATABASE `my-website-db`;
+CREATE DATABASE IF NOT EXISTS `my-website-db`;
 
 USE `my-website-db`;
 
