@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script should be run from the root of your project!
+
 appName=bbc-nextjs-app
 resourceGroup=$appName-group
 
@@ -10,6 +12,7 @@ dbUser=user
 dbPassword=password
 dbPort=3306
 dbName=my-website-db
+dbDumpPath="./lib/database/dump.sql"
 
 # Node
 nodeEnv=production
@@ -39,7 +42,7 @@ az mysql flexible-server execute \
     --name $dbServerName \
     --admin-user $dbUser \
     --admin-password $dbPassword \
-    --file-path "./lib/database/dump.sql"
+    --file-path $dbDumpPath
 
 # Create web app
 az webapp up \
