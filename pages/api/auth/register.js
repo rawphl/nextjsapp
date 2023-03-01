@@ -24,7 +24,7 @@ export async function handler(req, res) {
             email: email
         }
 
-        return res.status(200).json({ session: req.session })
+        return res.status(200).json(req.session.user)
     } catch (e) {
         console.error(e)
         return res.status(401).json({ message: "unauthorized" })
